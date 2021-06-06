@@ -25,11 +25,24 @@ int main(){
         LCD_command (0x80);
         delay_ms(300);
         
-        LCD_data('1');
-        LCD_data('2');
+         float distance = getDistance(30.078087354233926, 31.273906559461306,30.077870396044233, 31.275209508481343);
+        //float distance = getDistance(30.07803610431271, 31.274169123429644,30.0779182293887, 31.274840339591478);
 
+        display_distance(distance);
         delay_ms(500);
-        
+        led_output(distance);
+    }
+
+void delay_ms(int n){
+  int i,j;
+  for (i=0 ; i<n ; i++)
+  for(j=0; j<3180; j++){}
+    }
+
+void delay_us(int n){
+  int i,j;
+  for (i=0 ; i<n ; i++)
+  for(j=0; j<3; j++){}
     }
 
 void Ports_init(){
@@ -66,7 +79,7 @@ void Ports_init(){
      GPIO_PORTF_DATA_R&=~0x0E;
 
      //Port D for UART
-     SYSCTL_RCGCGPIO_R |=0X04;
+     SYSCTL_RCGCUART_R |=0X04;
      GPIO_PORTD_LOCK_R=0x4C4F434B; 
      GPIO_PORTD_CR_R|=0xC0; 
      GPIO_PORTD_AMSEL_R &=~0xC0; 
@@ -138,6 +151,7 @@ float getDistance(float lat1, float  lon1, float lat2, float lon2) {
          float c = 2 * atan2(sqrt(a), sqrt(1 - a));
         return earthRadiusKm * c * 1000;
      }
+
 void display_distance(float distance)
      {
 
