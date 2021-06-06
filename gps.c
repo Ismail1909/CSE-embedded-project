@@ -11,9 +11,9 @@ void LCD_init();
 void LCD_command(unsigned char c);
 void LCD_data(unsigned char d);
 long double degreesToRadians(long double degrees);
-double getDistance(double lat1, double  lon1, double lat2, double lon2);
-void display_distance(double distance);
-void  led_output(double data);
+float getDistance(float lat1, float  lon1, float lat2, float lon2);
+void display_distance(float distance);
+void  led_output(float data);
 
 int main(){
 
@@ -117,5 +117,25 @@ void LCD_init(){
          LCD_command (0x01);
          LCD_command (0x0F);
 }
+long double degreesToRadians(long double degrees) {
+    return degrees * PI / 180;
+}
 
+float getDistance(float lat1, float  lon1, float lat2, float lon2) {
+        int earthRadiusKm = 6371;
+        lat1 = degreesToRadians(lat1);
+        lat2 = degreesToRadians(lat2);
+        lon2 = degreesToRadians(lon2);
+        lon1 = degreesToRadians(lon1);
+        float lat = lat2 - lat1;
+        float lon = lon2 - lon1;
+        // Haversine formula :
+         // a = sin²(Δφ / 2) + cos φ1 ⋅ cos φ2 ⋅ sin²(Δλ / 2)
+         //c = 2 ⋅ atan2(√a, √(1−a))
+         //d = R ⋅ c
+         float  a = sin(lat / 2) * sin(lat / 2) +
+            pow(sin(lon / 2), 2) * cos(lat1) * cos(lat2);
+         float c = 2 * atan2(sqrt(a), sqrt(1 - a));
+        return earthRadiusKm * c * 1000;
+     }
 
