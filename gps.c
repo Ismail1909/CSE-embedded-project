@@ -16,6 +16,28 @@ void display_distance(float distance);
 void  led_output(float data);
 
 void Ports_init(){
+      SYSCTL_RCGCGPIO_R |= 0x23;
+      while((SYSCTL_PRGPIO_R&0x23)==0){};
+  //Port A
+     GPIO_PORTA_LOCK_R=0x4C4F434B;
+     GPIO_PORTA_CR_R|=0xE2;
+     GPIO_PORTA_PCTL_R |=0x00000011;
+     GPIO_PORTA_AFSEL_R |=0x03;
+     GPIO_PORTA_AMSEL_R &=~0xE2;
+     GPIO_PORTA_DIR_R |=0xE0;
+     GPIO_PORTA_DEN_R |=0xE0;
+     GPIO_PORTA_DATA_R&=~0xE3;
+  //Port B
+     GPIO_PORTB_LOCK_R=0x4C4F434B;
+     GPIO_PORTB_CR_R|=0xFF;
+     GPIO_PORTB_AMSEL_R &=~0xFF;
+     GPIO_PORTB_PCTL_R &=~0xFFFFFFFF;
+     GPIO_PORTB_AFSEL_R &=~0xFF;
+     GPIO_PORTB_DIR_R |=0xFF;
+     GPIO_PORTB_DEN_R |=0xFF;
+     GPIO_PORTB_DATA_R&=~0xFF;
+
+
   //Port F
      GPIO_PORTF_LOCK_R=0x4C4F434B;
      GPIO_PORTF_CR_R|=0x0E;
