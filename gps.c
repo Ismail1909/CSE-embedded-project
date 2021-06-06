@@ -43,4 +43,25 @@ void Ports_init(){
 
      delay_ms(20);
 }
+void LCD_command (unsigned char c){
 
+    GPIO_PORTA_DATA_R = 0x00;
+    GPIO_PORTB_DATA_R = c;
+    GPIO_PORTA_DATA_R = 0x80;
+    delay_us(1);
+    GPIO_PORTA_DATA_R = 0x00;
+    if (c < 4)
+        delay_ms(2);
+    else
+        delay_us(40);
+
+
+}
+void LCD_data (unsigned char d){
+    GPIO_PORTA_DATA_R = 0x20;
+    GPIO_PORTB_DATA_R = d;
+    GPIO_PORTA_DATA_R = 0x80 | 0x20;
+    delay_us(1);
+    GPIO_PORTA_DATA_R = 0;
+    delay_us(40);
+}
