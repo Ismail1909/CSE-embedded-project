@@ -11,13 +11,30 @@ void LCD_init();
 void LCD_command(unsigned char c);
 void LCD_data(unsigned char d);
 long double degreesToRadians(long double degrees);
-float getDistance(float lat1, float  lon1, float lat2, float lon2);
-void display_distance(float distance);
-void  led_output(float data);
+double getDistance(double lat1, double  lon1, double lat2, double lon2);
+void display_distance(double distance);
+void  led_output(double data);
+
+int main(){
+
+
+        Ports_init();
+        LCD_init();
+
+        LCD_command (0x01);
+        LCD_command (0x80);
+        delay_ms(300);
+        
+        LCD_data('1');
+        LCD_data('2');
+
+        delay_ms(500);
+        
+    }
 
 void Ports_init(){
-      SYSCTL_RCGCGPIO_R |= 0x23;
-      while((SYSCTL_PRGPIO_R&0x23)==0){};
+      SYSCTL_RCGCGPIO_R |= 0x2B;
+      while((SYSCTL_PRGPIO_R&0x2B)==0){};
   //Port A
      GPIO_PORTA_LOCK_R=0x4C4F434B;
      GPIO_PORTA_CR_R|=0xE2;
@@ -49,7 +66,6 @@ void Ports_init(){
      GPIO_PORTF_DATA_R&=~0x0E;
 
      //Port D for UART
-     SYSCTL_RCGCUART_R |=0X04;
      SYSCTL_RCGCGPIO_R |=0X04;
      GPIO_PORTD_LOCK_R=0x4C4F434B; 
      GPIO_PORTD_CR_R|=0xC0; 
@@ -87,3 +103,19 @@ void LCD_data (unsigned char d){
     GPIO_PORTA_DATA_R = 0;
     delay_us(40);
 }
+
+void LCD_init(){
+    LCD_command (0x30);
+         delay_ms(5);
+         LCD_command (0x30);
+         delay_us(100);
+         LCD_command (0x30);
+
+
+         LCD_command (0x38);
+         LCD_command (0x06);
+         LCD_command (0x01);
+         LCD_command (0x0F);
+}
+
+
