@@ -138,4 +138,26 @@ float getDistance(float lat1, float  lon1, float lat2, float lon2) {
          float c = 2 * atan2(sqrt(a), sqrt(1 - a));
         return earthRadiusKm * c * 1000;
      }
+void display_distance(float distance)
+     {
 
+       int digit;
+         int i ;
+
+         for(i=0; i<3; i++)
+      {
+         digit =(int)distance%10;
+         digit+=48; //to convert from ASCII into the real number
+         LCD_command(0x80+(2-i));
+         LCD_data(digit);
+         distance/=10;
+      }
+
+     }
+
+void  led_output(float data ){
+
+     if(data>=100){
+       GPIO_PORTF_DATA_R|=0x08; //GREEN
+        }
+     }
