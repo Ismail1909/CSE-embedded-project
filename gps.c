@@ -107,6 +107,12 @@ void UART0_Write(char data) {
 
 
 }
+uint8_t UART2_READ()
+{
+
+    while ((UART2_FR_R & 0x10) != 0) {}
+    return (uint8_t)(UART2_DR_R & 0x000000FF);
+}
 void LCD_command (unsigned char c){
 
     GPIO_PORTA_DATA_R = 0x00;
