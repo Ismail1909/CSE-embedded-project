@@ -1,4 +1,4 @@
-#include "C:\Users\amr\Desktop\tm4c123gh6pm.h"
+﻿#include "C:\Users\amr\Desktop\tm4c123gh6pm.h"
 #include<stdint.h>
 #include<math.h>
 #define PI 3.142857
@@ -49,14 +49,19 @@ void Ports_init(){
       SYSCTL_RCGCGPIO_R |= 0x2B;
       while((SYSCTL_PRGPIO_R&0x2B)==0){};
   //Port A
+     SYSCTL_RCGCUART_R |= 0x00000001;
      GPIO_PORTA_LOCK_R=0x4C4F434B;
-     GPIO_PORTA_CR_R|=0xE2;
-     GPIO_PORTA_PCTL_R |=0x00000011;
-     GPIO_PORTA_AFSEL_R |=0x03;
-     GPIO_PORTA_AMSEL_R &=~0xE2;
-     GPIO_PORTA_DIR_R |=0xE0;
-     GPIO_PORTA_DEN_R |=0xE0;
-     GPIO_PORTA_DATA_R&=~0xE3;
+     GPIO_PORTA_CR_R |=0xE2;
+     GPIO_PORTA_DEN_R  |= 0xE3;
+     GPIO_PORTA_AFSEL_R |= 0x03;
+     GPIO_PORTA_PCTL_R  |= 0x00000011;
+     GPIO_PORTA_DIR_R = 0xE0;
+     GPIO_PORTA_AMSEL_R= 0x00;
+     UART0_CTL_R &= ~ UART_CTL_UARTEN;
+     UART0_IBRD_R = 104;
+     UART0_FBRD_R = 11;
+     UART0_LCRH_R = (UART_LCRH_WLEN_8 | UART_LCRH_FEN);
+     UART0_CTL_R |= (UART_CTL_RXE | UART_CTL_TXE | UART_CTL_UARTEN);
   //Port B
      GPIO_PORTB_LOCK_R=0x4C4F434B;
      GPIO_PORTB_CR_R|=0xFF;
