@@ -100,6 +100,13 @@ void Ports_init(){
 
      delay_ms(20);
 }
+void UART0_Write(char data) {
+
+    while ((UART0_FR_R & UART_FR_TXFF) != 0);
+    UART0_DR_R = data;
+
+
+}
 void LCD_command (unsigned char c){
 
     GPIO_PORTA_DATA_R = 0x00;
