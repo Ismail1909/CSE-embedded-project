@@ -314,3 +314,29 @@ void gps(){
 
         }
     }
+        for(y=0;y<100;y++){
+        GPGGA[y] = NMEA[j++];
+    }
+
+    if(GPGGA[0] == 'A'){
+        ID = strtok(GPGGA,",");
+        Time = strtok(NULL,",");
+        Latitude1= strtok(NULL,",");
+        direction= strtok(NULL,",");
+        Longitude1 = strtok(NULL,",");
+
+        double longitude1 = atof(Longitude1);
+        res1 = (int)(longitude1 / 100);
+        res2 = longitude1 - (res1 * 100);
+       LatitudeResult = res1 + (res2 / 60);
+       //display_distance(LatitudeResult);
+
+        double latitude1 = atof(Latitude1);
+        res1 = (int)(latitude1 / 100);
+        res2 = latitude1 - (res1 * 100);
+        LongitudeResult = res1 + (res2 / 60);
+
+        display_distance(LongitudeResult);
+
+
+    }
