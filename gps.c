@@ -188,3 +188,123 @@ void  led_output(float data ){
        GPIO_PORTF_DATA_R|=0x08; //GREEN
         }
      }
+int R_isEmpty() {
+    return (int)(UART2_FR_R &= 0x0010);
+
+}
+
+/*void GPS_Read(){
+    char str_test[5][90];
+
+        for (int j = 0; j < 5; j++)
+        {
+            // for (int i = 0; i < 70; i++)
+            // {
+                // str_test[j][i] = getchar();
+                // if (str_test[j][i] == '\n')
+                // {
+                //     i = 71;
+                // }
+                fgets(str_test[j],90,stdin);
+
+            // }
+        }
+        char str[90];
+        int i = 0, u = 0,dashCnt = 0;
+        for (int j = 0; j < 5; j++){
+
+            while(1)
+            {
+                if (i >= 90 || u >=90 || j >= 5)
+                {
+                    break;
+                } else
+                {
+                    if (str_test[j][i] == '$'){
+                        dashCnt ++;
+                    }
+                    if (dashCnt >= 1)
+                    {
+                        str[u++] = str_test[j][i];
+                    }
+
+                    if (str_test[j][i] == '\n')
+                    {
+                        break;
+                    }
+                    i ++;
+
+                }
+
+
+            }
+            int init_size = strlen(str);        //want [2] & [4]
+            char delim[] = ",";
+
+            char *ptr = strtok(str, delim);
+
+            // int sum = 0;
+            char *gpsOut[16];
+            for(int s = 0; s < 5; s ++)
+            {
+                // printf("%s\n", ptr);
+                // while (ptr !)
+                // {
+                //  code
+                // }
+                gpsOut[s] = ptr;
+                ptr = strtok(NULL, delim);
+            }
+
+            if (gpsOut[0][0] == '$'
+                    && gpsOut[0][1] == 'G'
+                        && gpsOut[0][2] == 'P'
+                            && gpsOut[0][3] == 'G'
+                                && gpsOut[0][4] == 'G'
+                                    && gpsOut[0][5] == 'A')
+            {
+                //!the reason of the ptr
+                char * gps[2];
+                double ahmed = strtod(gpsOut[2], &gps[0]);
+                double ahmed1 = strtod(gpsOut[4], &gps[1]);
+
+                display_distance(ahmed);
+
+
+            }
+
+        }
+}
+}*/
+
+void gps(){
+
+
+    double longitude1;
+    double latitude1;
+    double  LatitudeResult;
+    double LongitudeResult;
+    double res1;
+    double res2;
+
+    char* ID;
+    char* Time;
+    char* Longitude1;
+    char* direction;
+    char* Latitude1;
+    char NMEA[200];
+    char GPGGA[50];
+    int i;
+    int j=0;
+    int y;
+
+
+    for(i=0;i<150;i++){
+        while ((UART2_FR_R & 0x10) != 0) {}
+        NMEA[i] = UART2_DR_R;
+        if(NMEA[i]=='A'&& NMEA[i-1] =='G'){
+            //check for gpgga line and takes i of "A" in j
+            j=i;
+
+        }
+    }
